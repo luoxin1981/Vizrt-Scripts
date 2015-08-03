@@ -1,4 +1,4 @@
-'TextImport 1-lines(win8 compatable)
+'TextImport(win8 compatable)
 'Author: luoxin
 'Date: 08 02, 2015
 
@@ -8,9 +8,11 @@ Dim ti,i,j,str
 Dim readpage1,saveaspage1
 Dim path
 
-Const ForReading = 1
-readpage1 = 1001
+readpage1 = 1002
 saveaspage1 = 9011
+
+Const ForReading = 1
+n=0
 
 Set fso = CreateObject("Scripting.FileSystemObject")
 
@@ -18,8 +20,8 @@ Set fso = CreateObject("Scripting.FileSystemObject")
         Set oExec=wShell.Exec("mshta.exe ""about:<input type=file id=FILE><script>FILE.click();new ActiveXObject('Scripting.FileSystemObject').GetStandardStream(1).WriteLine(FILE.value);close();resizeTo(0,0);</script>""")
         path = oExec.StdOut.ReadLine
         if instr(path,".txt") = 0 then
-                msgbox "No *.txt file selected!"
-                exit sub
+			msgbox "No *.txt file selected!"
+			exit sub
         else
 
 Set ti = fso.OpenTextFile(path,ForReading)
@@ -33,18 +35,18 @@ Set ti = fso.OpenTextFile(path,ForReading)
 			MyArray1 = Split(MyArray(i), chr(13), -1, 1)
 			j=Ubound(MyArray1)
 			if j=1 then
-					  Triocmd("page:read "+Cstr(readpage1))
-					  TrioCmd("page:set_property " & 2 & " " & Myarray1(0))
-					  TrioCmd("saveas " + Cstr(saveaspage1))
-					  saveaspage1 = saveaspage1 + 10
+				  Triocmd("page:read "+Cstr(readpage1))
+				  TrioCmd("page:set_property " & 2 & " " & Myarray1(0))
+				  TrioCmd("saveas " + Cstr(saveaspage1))
+				  saveaspage1 = saveaspage1 + 10
 
 			 'if j=2 then
-					  'Triocmd("page:read "+Cstr(readpage1))
-					  'TrioCmd("page:set_property " & 11 & " " & Myarray1(0))
-					  'TrioCmd("page:set_property " & 12 & " " & Myarray1(1))
-					  'TrioCmd("saveas " + Cstr(saveaspage1))
-					  'saveaspage1 = saveaspage1 + 10
-
+				  'Triocmd("page:read "+Cstr(readpage1))
+				  'TrioCmd("page:set_property " & 11 & " " & Myarray1(0))
+				  'TrioCmd("page:set_property " & 12 & " " & Myarray1(1))
+				  'TrioCmd("saveas " + Cstr(saveaspage1))
+				  'saveaspage1 = saveaspage1 + 10
+			n=n+1
 			end if
 			next
 
@@ -53,7 +55,7 @@ Set ti = fso.OpenTextFile(path,ForReading)
 ti.close
 
 set fso=nothing
-msgbox "IMPORT OK"
+msgbox "[" & n & "] items imported!"
 
         end if
 
