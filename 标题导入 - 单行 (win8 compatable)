@@ -1,24 +1,27 @@
-'TextImport 1-lines(win8 compatable)
+'TextImport(win8 compatable)
 'Author: luoxin
 'Date: 08 02, 2015
 
 sub OnUserClick
 Dim fso,res,objdialog
-Dim ti,i,j,str
+Dim ti,i,j,str,n
 Dim readpage1,saveaspage1
 Dim path
 
-Const ForReading = 1
-readpage1 = 1001
+readpage1 = 1002
 saveaspage1 = 9011
+
+Const ForReading = 1
+n=0
 
 Set fso = CreateObject("Scripting.FileSystemObject")
 
         Set wShell=CreateObject("WScript.Shell")
         Set oExec=wShell.Exec("mshta.exe ""about:<input type=file id=FILE><script>FILE.click();new ActiveXObject('Scripting.FileSystemObject').GetStandardStream(1).WriteLine(FILE.value);close();resizeTo(0,0);</script>""")
         path = oExec.StdOut.ReadLine
-        if path ="" then
-			exit sub
+        if instr(path,".txt") = 0 then
+                msgbox "No *.txt file selected!"
+                exit sub
         else
 
 Set ti = fso.OpenTextFile(path,ForReading)
@@ -28,31 +31,32 @@ Set ti = fso.OpenTextFile(path,ForReading)
 
         MyArray = Split(str, chr(10)+chr(13), -1, 1)
 
-			for i=0 to Ubound(MyArray)
-			MyArray1 = Split(MyArray(i), chr(13), -1, 1)
-			j=Ubound(MyArray1)
-			if j=1 then
+				for i=0 to Ubound(MyArray)
+				MyArray1 = Split(MyArray(i), chr(13), -1, 1)
+				j=Ubound(MyArray1)
+				if j=1 then
 					  Triocmd("page:read "+Cstr(readpage1))
 					  TrioCmd("page:set_property " & 2 & " " & Myarray1(0))
 					  TrioCmd("saveas " + Cstr(saveaspage1))
 					  saveaspage1 = saveaspage1 + 10
 
-			 'if j=2 then
+				 'if j=2 then
 					  'Triocmd("page:read "+Cstr(readpage1))
 					  'TrioCmd("page:set_property " & 11 & " " & Myarray1(0))
 					  'TrioCmd("page:set_property " & 12 & " " & Myarray1(1))
 					  'TrioCmd("saveas " + Cstr(saveaspage1))
 					  'saveaspage1 = saveaspage1 + 10
 
-			end if
-			next
+				n=n+1
+				end if
+				next
 
         wend
 
 ti.close
 
 set fso=nothing
-msgbox "IMPORT OK"
+msgbox "[" & n & "] item(s) imported!"
 
         end if
 
