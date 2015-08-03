@@ -17,8 +17,9 @@ Set fso = CreateObject("Scripting.FileSystemObject")
         Set wShell=CreateObject("WScript.Shell")
         Set oExec=wShell.Exec("mshta.exe ""about:<input type=file id=FILE><script>FILE.click();new ActiveXObject('Scripting.FileSystemObject').GetStandardStream(1).WriteLine(FILE.value);close();resizeTo(0,0);</script>""")
         path = oExec.StdOut.ReadLine
-        if path ="" then
-			exit sub
+        if instr(path,".txt") = 0 then
+                msgbox "No *.txt file selected!"
+                exit sub
         else
 
 Set ti = fso.OpenTextFile(path,ForReading)
