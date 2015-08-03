@@ -27,12 +27,13 @@ Set fso = CreateObject("Scripting.FileSystemObject")
 Set ti = fso.OpenTextFile(path,ForReading)
 
         While not ti.AtEndOfStream
-        str=ti.Readall
-
+        
+		str=ti.Readall
         MyArray = Split(str, chr(10)+chr(13), -1, 1)
 
 				for i=0 to Ubound(MyArray)
 				MyArray1 = Split(MyArray(i), chr(13), -1, 1)
+				
 				j=Ubound(MyArray1)
 				if j=1 then
 					  Triocmd("page:read "+Cstr(readpage1))
@@ -49,8 +50,8 @@ Set ti = fso.OpenTextFile(path,ForReading)
 
 				n=n+1
 				end if
-				next
-
+		
+		next
         wend
 
 ti.close
