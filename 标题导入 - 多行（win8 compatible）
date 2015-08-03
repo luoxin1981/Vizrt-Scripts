@@ -36,7 +36,7 @@ Set ti = fso.OpenTextFile(path,ForReading)
 				MyArray1 = Split(MyArray(i), chr(13), -1, 1)
 				j = Ubound(MyArray1)
 
-				msgbox "i=" & i & "; j=" & j & "; n=" &n
+				'msgbox "i=" & i & "; j=" & j & "; n=" &n
 
 				if j=1 then
 						Triocmd("page:read "+Cstr(readpage1))
